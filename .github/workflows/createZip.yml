@@ -1,12 +1,19 @@
 name: Create Zip
-on: [push]
+on: 
+  push:
+    branches:
+      -master
+
 jobs:
-  To-Zip:
+  create_zip_file:
     runs-on: ubuntu-latest
-    steps:        
-      - name: Commit and push
-        uses: EndBug/add-and-commit@v7
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Zip File
+        run:
+          zip -r my-repo.zip
+      - name: Create Zip File
         with:
-          add: '["folder.zip"]'
-          message: 'My commit message'
-          push: true
+          name: my-repo.zip
+          path: my-repo.zip
