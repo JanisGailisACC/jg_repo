@@ -2,7 +2,7 @@ name: Create and Upload Zip File
 on:
   push:
     branches:
-      - master # or the branch you want to trigger the action on
+      - master
 jobs:
   create_and_upload_zip_file:
     runs-on: ubuntu-latest
@@ -12,10 +12,8 @@ jobs:
       - name: Create Zip File
         run: |
           zip -r -FS my_repo.zip .
-        # The above command creates a zip file named `my_repo.zip` and overwrites any existing file with the same name
       - name: Upload Zip File
         uses: actions/upload-artifact@v2
         with:
           name: my_repo.zip
           path: my_repo.zip
-        # The above command uploads the zip file as an artifact with the name `my_repo.zip` in the root folder of the repository and overwrites any existing file with the same name
