@@ -1,9 +1,9 @@
-name: Create Zip
-on: 
+
+name: Create and Upload Zip File
+on:
   push:
     branches:
-      -master
-
+      - main # or the branch you want to trigger the action on
 jobs:
   create_and_upload_zip_file:
     runs-on: ubuntu-latest
@@ -11,10 +11,34 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Create Zip File
-        run:
-          zip -r my-repo.zip .
+        run: |
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+          zip -r $COMMIT_SHA.zip .
+        # The above command creates a zip file named after the commit SHA
       - name: Upload Zip File
         uses: actions/upload-artifact@v2
         with:
-          name: my-repo.zip
-          path: my-repo.zip
+          name: ${{ github.sha }}.zip
+          path: ${{ github.sha }}.zip
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.0 # replace with your desired tag name
+          release_name: Release 1.0.0 # replace with your desired release name
+          body: |
+            This is the release body for version 1.0.0.
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.sha }}.zip
+          asset_name: ${{ github.sha }}.zip
+          asset_content_type: application/zip
