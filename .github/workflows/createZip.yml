@@ -11,20 +11,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Create Zip File
         run: |
-          COMMIT_SHA=$(git rev-parse --short HEAD)
-          zip -r -FS $COMMIT_SHA.zip .
-        # The above command creates a zip file named after the commit SHA and overwrites any existing file with the same name
-      - name: Create Archive Folder
-        run: |
-          mkdir -p archive
-        # The above command creates an archive folder if it doesn't exist
-      - name: Move Zip File to Archive Folder
-        run: |
-          mv $COMMIT_SHA.zip archive/
-        # The above command moves the zip file to the archive folder
+          zip -r -FS my_repo.zip .
+        # The above command creates a zip file named `my_repo.zip` and overwrites any existing file with the same name
       - name: Upload Zip File
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.sha }}.zip
-          path: archive/${{ github.sha }}.zip
-        # The above command uploads the zip file as an artifact with the name `${{ github.sha }}.zip` in the `archive` folder and overwrites any existing file with the same name
+          name: my_repo.zip
+          path: my_repo.zip
+        # The above command uploads the zip file as an artifact with the name `my_repo.zip` in the root folder of the repository and overwrites any existing file with the same name
