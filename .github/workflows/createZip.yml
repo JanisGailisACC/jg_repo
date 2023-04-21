@@ -5,14 +5,14 @@ on:
       -master
 
 jobs:
-  create_zip_file:
+  create_and_upload_zip_file:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Create Zip File
         run:
-          zip -r my-repo.zip
+          zip -r my-repo.zip .
       - name: Upload Zip File
         uses: actions/upload-artifact@v2
         with:
