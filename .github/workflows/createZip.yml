@@ -13,7 +13,7 @@ jobs:
         run: |
           zip -r -FS my_repo.zip .
       - name: Upload Zip File
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: my_repo.zip
           path: my_repo.zip
