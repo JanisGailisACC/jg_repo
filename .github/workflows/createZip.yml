@@ -3,7 +3,7 @@ name: Create and Upload Zip File
 on:
   push:
     branches:
-      - main # or the branch you want to trigger the action on
+      - master
 jobs:
   create_and_upload_zip_file:
     runs-on: ubuntu-latest
